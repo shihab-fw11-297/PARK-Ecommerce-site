@@ -8,15 +8,60 @@ import { Link } from "react-router-dom";
 import "./Navbar.scss"
 
 const Navbar = () => {
+    let showMenu = false;
+
+
+    const toggleMenu = () =>{
+        // console.log("---", navItems && navItems)
+        if(!showMenu) {
+            const hamburger = document.querySelector('.menu-btn__burger');
+            hamburger.classList.add('open');
+            const nav = document.querySelector('.navbar');
+            nav.classList.add('open');
+            const wrapper = document.querySelector('.wrapper');
+            wrapper.classList.add('open');
+            const menuNav = document.querySelector('.left');
+            menuNav.classList.add('open');
+            const menuNavs = document.querySelector('.right');
+            menuNavs.classList.add('open');
+            const navItems = document.querySelectorAll('.item');
+            navItems && navItems.forEach(item => item.classList.add('open'));
+            const disable = document.querySelectorAll('.items');
+            disable && disable.forEach(item => item.classList.add('open'));
+
+            showMenu = true;
+          } else {
+            const hamburger = document.querySelector('.menu-btn__burger');
+            hamburger.classList.remove('open');
+            const nav = document.querySelector('.navbar');
+            nav.classList.remove('open');
+            const wrapper = document.querySelector('.wrapper');
+            wrapper.classList.remove('open');
+            const menuNav = document.querySelector('.left');
+            menuNav.classList.remove('open');
+            const menuNavs = document.querySelector('.right');
+            menuNavs.classList.add('open');
+            const navItems = document.querySelectorAll('.item');
+            navItems && navItems.forEach(item => item.classList.remove('open'));
+            const disable = document.querySelectorAll('.items');
+            disable && disable.forEach(item => item.classList.remove('open'));
+            showMenu = false;
+          }
+    }
     return (
         <div className='navbar'>
+
+            {/* <div className="menu-btn" onClick={toggleMenu}>
+                <span className="menu-btn__burger"></span>
+            </div> */}
+
             <div className='wrapper'>
                 <div className='left'>
-                    <div className="item">
+                    <div className="item items" >
                         <img src="/img/en.png" alt="" />
                         <KeyboardArrowDownIcon />
                     </div>
-                    <div className="item">
+                    <div className="item items">
                         <span>USD</span>
                         <KeyboardArrowDownIcon />
                     </div>
