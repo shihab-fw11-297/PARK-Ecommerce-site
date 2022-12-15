@@ -23,6 +23,26 @@
                 color: gray;
             }
         }
+
+        @media screen and (max-width: 480px) {
+            display: flex;
+            gap: 20px;
+            flex-direction: column;
+            
+        }
+
+        .firstlinks{
+
+            display: flex;
+            gap: 50px;
+            flex-direction: row;
+
+            @media screen and (max-width: 480px) {
+                display: flex;
+                gap: 20px;
+                flex-direction: row;
+            }
+        }
     }
 
     .bottom {
@@ -55,7 +75,20 @@
 
             img {
                 height: 50px;
+                @media screen and (max-width: 480px) {
+                    width: 90vw;
+                }
             }
         }
+        @media screen and (max-width: 480px) {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        margin: 100px 5% 20px 5%;
     }
 }

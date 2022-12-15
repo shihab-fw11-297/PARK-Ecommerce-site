@@ -7,6 +7,11 @@ const productSchema = new mongoose.Schema({
     categories:{type:Array},
     size: { type: Array },
     color: { type: Array },
+    isNew: {
+        type: Boolean,
+        default: false,
+      },
+    oldPrice:{type:Number,require:true},
     price:{type:Number,require:true},
 },{
     timestamps:true,

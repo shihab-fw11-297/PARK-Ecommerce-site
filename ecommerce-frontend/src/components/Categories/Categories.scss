@@ -1,10 +1,10 @@
-.categories{
+.categories {
     display: flex;
     height: 80vh;
     gap: 10px;
     margin: 10px;
 
-    .col{
+    .col {
         flex: 1;
         display: flex;
         flex-direction: column;
@@ -12,20 +12,20 @@
         // border: 1px solid black;
     }
 
-    .col-1{
+    .col-1 {
         flex: 2;
         // border: 1px solid black;
 
     }
 
-    .row{
+    .row {
         flex: 1;
         display: flex;
         gap: 10px;
         position: relative;
         overflow: hidden;
 
-        button{
+        button {
             position: absolute;
             min-width: 100px;
             width: fit-content;
@@ -43,10 +43,18 @@
             font-weight: 500;
         }
 
-        img{
+        img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
+    }
+
+    @media screen and (max-width: 480px) {
+        display: flex;
+        flex-direction: column;
+        height: 320vh;
+        gap: 10px;
+        margin: 10px;
     }
 }

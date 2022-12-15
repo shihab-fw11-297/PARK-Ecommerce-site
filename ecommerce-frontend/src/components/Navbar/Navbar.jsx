@@ -6,11 +6,13 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { Link } from "react-router-dom";
 import "./Navbar.scss"
+import Cart from "../Cart/Cart";
+
 
 const Navbar = () => {
     let showMenu = false;
-
-
+    const [open, setOpen] = useState(false)
+    
     const toggleMenu = () =>{
         // console.log("---", navItems && navItems)
         if(!showMenu) {
@@ -50,8 +52,8 @@ const Navbar = () => {
     }
     return (
         <div className='navbar'>
-
-            {/* <div className="menu-btn" onClick={toggleMenu}>
+{/* 
+            <div className="menu-btn" onClick={toggleMenu}>
                 <span className="menu-btn__burger"></span>
             </div> */}
 
@@ -66,13 +68,13 @@ const Navbar = () => {
                         <KeyboardArrowDownIcon />
                     </div>
                     <div className="item">
-                        <Link className="link" to="/products/1">Women</Link>
+                        <Link className="link" to="/products/men">Men</Link>
                     </div>
                     <div className="item">
-                        <Link className="link" to="/products/2">Men</Link>
+                        <Link className="link" to="/products/women">Women</Link>
                     </div>
                     <div className="item">
-                        <Link className="link" to="/products/3">Children</Link>
+                        <Link className="link" to="/products/children">Children</Link>
                     </div>
                 </div>
                 <div className='center'>
@@ -82,10 +84,13 @@ const Navbar = () => {
                 </div>
                 <div className='right'>
                     <div className="item">
-                        <Link className="link" to="/">Homepage</Link>
+                        {/* <Link className="link" to="/">Homepage</Link> */}
                     </div>
                     <div className="item">
-                        <Link className="link" to="/">About</Link>
+                        {/* <Link className="link" to="/">About</Link> */}
+                    </div>
+                    <div className="item">
+                        {/* <Link className="link" to="/">About</Link> */}
                     </div>
                     <div className="item">
                         <Link className="link" to="/">Contact</Link>
@@ -94,16 +99,19 @@ const Navbar = () => {
                         <Link className="link" to="/">Stores</Link>
                     </div>
                     <div className="icons">
-                        <SearchIcon />
-                        <PersonOutlineOutlinedIcon />
-                        <FavoriteBorderOutlinedIcon />
-                        <div className="cartIcon">
+                        <div className="item items">
+                            <SearchIcon />
+                            <PersonOutlineOutlinedIcon />
+                            <FavoriteBorderOutlinedIcon />
+                        </div>
+                        <div className="cartIcon" onClick={() => setOpen(!open)}>
                             <ShoppingCartOutlinedIcon />
                             <span>0</span>
                         </div>
                     </div>
                 </div>
             </div>
+            {open && <Cart />}
         </div>
     )
 }

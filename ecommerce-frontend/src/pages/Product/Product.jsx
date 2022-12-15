@@ -2,34 +2,99 @@ import React from 'react'
 import './Product.scss'
 import Navbar from '../../components/Navbar/Navbar'
 import Footer from '../../components/Footer/Footer'
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import BalanceIcon from "@mui/icons-material/Balance";
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import useFetch from "../../hooks/useFetch";
 
 const Product = () => {
-    const [selectedImg, setSelectedImg] = useState("img");
-
-    const images = [
-        "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1665405926_6980127.jpg?format=webp&w=376&dpr=1.0",
-        "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1654324617_3798106.jpg?format=webp&w=376&dpr=1.0",
-    ];
-
+    const [selectedImg, setSelectedImg] = useState(0);
+    const [quantity, setQuantity] = useState(1);
+    const location = useLocation();
+    const id = location.pathname.split("/")[2];
+    const { data, loading } = useFetch(`http://localhost:5000/api/products/find/${id}`);
+    const [size, setSize] = useState("");
+    let discount = (data.oldPrice - data.price) / data.oldPrice * 100;
+    // console.log("discount",discount)
 
     return (
         <>
             <Navbar />
-            <div className='Product'>
+            <div className='product'>
                 <div className="left">
                     <div className="images">
-                        <img src={images[0]} alt="" onClick={(e) => setSelectedImg(0)} />
-                        <img src={images[1]} alt="" onClick={(e) => setSelectedImg(1)} />
+                        <img src={data.image && data.image[0]} alt="" onClick={(e) => setSelectedImg(0)} />
+                        <img src={data.image && data.image[1]} alt="" onClick={(e) => setSelectedImg(1)} />
+                        <img src={data.image && data.image[2]} alt="" onClick={(e) => setSelectedImg(2)} />
                     </div>
 
                     <div className="mainImg">
-                        <img src={images[selectedImg]} alt="" />
+                        <img src={data.image && data.image[selectedImg]} alt="" />
                     </div>
                 </div>
 
                 <div className="right">
+                    <h1>{data.title}</h1>
+                    <div className="priceDetail">
+                        <div className="pricedata">
+                            <span className='price'>Rs. {data.price}</span>
+                            <span className='oldPrice'>Rs. {data.oldPrice}</span>
+                            <span className="discount">({Math.ceil(discount)}% OFF)</span>
+                        </div>
+                        <span className="taxes">(Inclusive of all taxes)</span>
+                    </div>
 
+                    <p>{data.description}</p>
+                    <div className="flex">
+                        <div className="quantity">
+                            <button onClick={() => setQuantity((prev) => (prev === 1 ? 1 : prev - 1))}>-</button>
+                            {quantity}
+                            <button onClick={() => setQuantity((prev) => prev + 1)}>+</button>
+                        </div>
+
+                        <div className="size">
+                            <h3>Size & fit</h3>
+                            <select onChange={(e) => setSize(e.target.value)}>
+                                {data.size?.map((s) => (
+                                    <option key={s}>{s}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+
+                    <button className="add">
+                        <AddShoppingCartIcon /> ADD TO CART
+                    </button>
+
+                    <div className="links">
+                        <div className="item">
+                            <FavoriteBorderIcon /> ADD TO WISH LIST
+                        </div>
+                        <div className="item">
+                            <BalanceIcon /> ADD TO COMPARE
+                        </div>
+                    </div>
+                    <div className="info">
+                        <span>Vendor: Abc.co.lted</span>
+                        <span>Product Type: fashion</span>
+                        <span>Tag: T-Shirt,Shoes, Men,Women</span>
+                    </div>
+                    {/* <hr /> */}
+                    <div className="otherInfo">
+                        <div className="delivery">
+                            <p style={{fontWeight:"500"}}>DELIVERY OPTIONS</p>
+                            <p>Usually Ships in 3-4 Days</p>
+                            <p>100% Originals</p>
+                            <p>Free shipping on order above Rs. 600</p>
+                            <p>Non Returnable</p>
+                        </div>
+                        {/* <hr /> */}
+                        <p style={{fontWeight:"500"}}>ADDITIONAL INFORMATION</p>
+                        {/* <hr /> */}
+                        <p style={{fontWeight:"500"}}>FAQ</p>
+                    </div>
                 </div>
             </div>
             <Footer />

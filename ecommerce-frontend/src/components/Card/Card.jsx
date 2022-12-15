@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 
 const Card = ({ item }) => {
     return (
-        <Link className="link" to={`/product/${item.id}`}>
+        <Link className="link" to={`/product/${item._id}`}>
             <div className='card'>
                 <div className="image">
                 {item.isNew && <span>New Season</span>}
-                    <img src={item.img1} alt="" className="mainImg" />
-                    <img src={item.img2} alt="" className="secondImg" />
+                    <img src={item.image[0]} alt="" className="mainImg" />
+                    <img src={item.image[1]} alt="" className="secondImg" />
 
                 </div>
                 <div className="detail">

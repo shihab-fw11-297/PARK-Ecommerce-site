@@ -1,56 +1,22 @@
 import React, { useState } from "react";
 import "./FeaturedProducts.scss";
 import Card from '../Card/Card';
+import Carousel from "react-elastic-carousel";
+import useFetch from "../../hooks/useFetch";
 
 const FeaturedProducts = ({ type }) => {
-    const [currentSlide, setCurrentSlide] = useState(0);
+    const { data, loading } = useFetch("http://localhost:5000/api/products");
+    // console.log("receive data", data)
 
-    const prevSlide = () => {
-        setCurrentSlide(currentSlide === 0 ? 2 : (prev) => prev - 1);
-      };
-      const nextSlide = () => {
-        setCurrentSlide(currentSlide === 2 ? 0 : (prev) => prev + 1);
-      };
+    const breakPoints = [
+        { width: 1, itemsToShow: 1 },
+        { width: 400, itemsToShow: 2 },
+        { width: 668, itemsToShow: 4 },
+        { width: 1100, itemsToShow: 5 }
+    ];
 
 
-    const data = [
-        {
-            id: 1,
-            img1: "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1665405926_6980127.jpg?format=webp&w=376&dpr=1.0",
-            img2: "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1654324617_3798106.jpg?format=webp&w=376&dpr=1.0",
-            title: "long sleve graphics tshirt",
-            isNew: true,
-            oldPrice: 10,
-            price: 8
-        },
-        {
-            id: 1,
-            img1: "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1670479338_7309681.jpg?format=webp&w=376&dpr=1.0",
-            img2: "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1670482560_5632899.jpg?format=webp&w=376&dpr=1.0",
-            title: "long sleve graphics tshirt 2",
-            isNew: true,
-            oldPrice: 15,
-            price: 12
-        },
-        {
-            id: 1,
-            img1: "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1670344103_7026664.jpg?format=webp&w=376&dpr=1.0",
-            img2: "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1670344096_9495688.jpg?format=webp&w=376&dpr=1.0",
-            title: "long sleve graphics tshirt 3",
-            isNew: false,
-            oldPrice: 18,
-            price: 15
-        },
-        {
-            id: 1,
-            img1: "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1665405926_6980127.jpg?format=webp&w=376&dpr=1.0",
-            img2: "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1654324617_3798106.jpg?format=webp&w=376&dpr=1.0",
-            title: "long sleve graphics tshirt 4",
-            isNew: false,
-            oldPrice: 25,
-            price: 20
-        }
-    ]
+   
     return (
         <div className="featuredProducts">
             <div className="top">
@@ -65,7 +31,15 @@ const FeaturedProducts = ({ type }) => {
             </div>
 
             <div className="bottom">
-            {data?.map((item) => <Card item={item} key={item.id} />)}
+                {type === "featured" ?
+                <Carousel breakPoints={breakPoints}>
+                    {data?.map((item) => <Card item={item} key={item._id} />)}
+                </Carousel>
+                :
+                <Carousel breakPoints={breakPoints}>
+                {data?.filter((item)=> item.isNew === true).map((item) => <Card item={item} key={item._id} />)}
+            </Carousel>
+            }
             </div>
         </div>
     )

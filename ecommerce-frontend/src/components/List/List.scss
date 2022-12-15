@@ -1,5 +1,5 @@
 .list{
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 14rem 14rem 14rem 14rem;
+    gap: 2rem;
 }
