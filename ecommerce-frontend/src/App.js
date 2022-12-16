@@ -7,6 +7,8 @@ import {
 import Home from './pages/Home/Home';
 import Product from './pages/Product/Product';
 import Products from './pages/Products/Products';
+import Success from './pages/Success/Success';
+
 import './app.scss'
 
 const router = createBrowserRouter([
@@ -30,6 +32,10 @@ const router = createBrowserRouter([
     path:"/order",
     element:<span>order</span>
   },
+  {
+    path:"/success",
+    element:<Success />
+  }
 ])
 const App = () => {
   return (

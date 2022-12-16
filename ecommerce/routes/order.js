@@ -7,7 +7,7 @@ const {
 const router = require("express").Router();
 
 
-router.post("/",verifyToken, async (req, res) => {
+router.post("/", async (req, res) => {
     const newOrder = new Order(req.body);
   
     try {
@@ -59,7 +59,7 @@ router.put("/:id",verifyToken, async (req, res) => {
     }
   });
 
-  router.get("/find/:userId", verifyToken,async (req, res) => {
+  router.get("/find/:userId",async (req, res) => {
     try {
       const orders = await Order.find({ userId: req.params.userId }).sort('-createdAt');
       res.status(200).json(orders);

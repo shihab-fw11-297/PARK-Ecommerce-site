@@ -7,52 +7,77 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { Link } from "react-router-dom";
 import "./Navbar.scss"
 import Cart from "../Cart/Cart";
+import { useSelector } from "react-redux";
+import { ModalInFunctionalComponent } from "../../components/Modal/Modal";
 
 
 const Navbar = () => {
     let showMenu = false;
     const [open, setOpen] = useState(false)
-    
-    const toggleMenu = () =>{
-        // console.log("---", navItems && navItems)
-        if(!showMenu) {
-            const hamburger = document.querySelector('.menu-btn__burger');
-            hamburger.classList.add('open');
-            const nav = document.querySelector('.navbar');
-            nav.classList.add('open');
-            const wrapper = document.querySelector('.wrapper');
-            wrapper.classList.add('open');
-            const menuNav = document.querySelector('.left');
-            menuNav.classList.add('open');
-            const menuNavs = document.querySelector('.right');
-            menuNavs.classList.add('open');
-            const navItems = document.querySelectorAll('.item');
-            navItems && navItems.forEach(item => item.classList.add('open'));
-            const disable = document.querySelectorAll('.items');
-            disable && disable.forEach(item => item.classList.add('open'));
+    const [openPayment, setOpenPayment] = useState(false)
+    const products = useSelector((state) => state.cart.products);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [dropdownState, setDropdownState] = useState(false);
+    let user = true;
 
-            showMenu = true;
-          } else {
-            const hamburger = document.querySelector('.menu-btn__burger');
-            hamburger.classList.remove('open');
-            const nav = document.querySelector('.navbar');
-            nav.classList.remove('open');
-            const wrapper = document.querySelector('.wrapper');
-            wrapper.classList.remove('open');
-            const menuNav = document.querySelector('.left');
-            menuNav.classList.remove('open');
-            const menuNavs = document.querySelector('.right');
-            menuNavs.classList.add('open');
-            const navItems = document.querySelectorAll('.item');
-            navItems && navItems.forEach(item => item.classList.remove('open'));
-            const disable = document.querySelectorAll('.items');
-            disable && disable.forEach(item => item.classList.remove('open'));
-            showMenu = false;
-          }
+
+    const handleDropdownClick = () => {
+        setDropdownState(!dropdownState);
     }
+
+    const signOut = () => {
+        localStorage.removeItem('persist:root')
+        window.location.reload(false);
+    }
+    const totalPrice = () => {
+        let total = 0;
+        products.forEach((item) => {
+            total += item.quantity * item.price;
+        });
+        return total.toFixed(2);
+    };
+
+
+    // const toggleMenu = () =>{
+    //     // console.log("---", navItems && navItems)
+    //     if(!showMenu) {
+    //         const hamburger = document.querySelector('.menu-btn__burger');
+    //         hamburger.classList.add('open');
+    //         const nav = document.querySelector('.navbar');
+    //         nav.classList.add('open');
+    //         const wrapper = document.querySelector('.wrapper');
+    //         wrapper.classList.add('open');
+    //         const menuNav = document.querySelector('.left');
+    //         menuNav.classList.add('open');
+    //         const menuNavs = document.querySelector('.right');
+    //         menuNavs.classList.add('open');
+    //         const navItems = document.querySelectorAll('.item');
+    //         navItems && navItems.forEach(item => item.classList.add('open'));
+    //         const disable = document.querySelectorAll('.items');
+    //         disable && disable.forEach(item => item.classList.add('open'));
+
+    //         showMenu = true;
+    //       } else {
+    //         const hamburger = document.querySelector('.menu-btn__burger');
+    //         hamburger.classList.remove('open');
+    //         const nav = document.querySelector('.navbar');
+    //         nav.classList.remove('open');
+    //         const wrapper = document.querySelector('.wrapper');
+    //         wrapper.classList.remove('open');
+    //         const menuNav = document.querySelector('.left');
+    //         menuNav.classList.remove('open');
+    //         const menuNavs = document.querySelector('.right');
+    //         menuNavs.classList.add('open');
+    //         const navItems = document.querySelectorAll('.item');
+    //         navItems && navItems.forEach(item => item.classList.remove('open'));
+    //         const disable = document.querySelectorAll('.items');
+    //         disable && disable.forEach(item => item.classList.remove('open'));
+    //         showMenu = false;
+    //       }
+    // }
     return (
         <div className='navbar'>
-{/* 
+            {/* 
             <div className="menu-btn" onClick={toggleMenu}>
                 <span className="menu-btn__burger"></span>
             </div> */}
@@ -101,17 +126,51 @@ const Navbar = () => {
                     <div className="icons">
                         <div className="item items">
                             <SearchIcon />
-                            <PersonOutlineOutlinedIcon />
+                            <PersonOutlineOutlinedIcon onClick={handleDropdownClick} />
                             <FavoriteBorderOutlinedIcon />
-                        </div>
-                        <div className="cartIcon" onClick={() => setOpen(!open)}>
-                            <ShoppingCartOutlinedIcon />
-                            <span>0</span>
+
+                            <div className={`dropdown`}>
+                                <div className={`dropdown-items ${dropdownState ? "isVisible" : "isHidden"}`}>
+                                    {user ? (
+                                        <>
+                                            <div className="dropdown-item">
+                                                <div className="dropdown__link"> Profile Details</div>
+                                            </div>
+
+                                            <div className="dropdown-item">
+                                                <div className="dropdown__link" onClick={() => signOut()}> Sign out</div>
+                                            </div>
+
+                                            <div className="dropdown-item">
+                                                <Link to="/success"> <div className="dropdown__link"> Orders </div></Link>
+                                            </div>
+
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className="dropdown-item">
+                                                <Link to="/login"><div className="dropdown__link"> Login </div></Link>
+                                            </div>
+                                            <div className="dropdown-item">
+                                                <Link to="/register"> <div className="dropdown__link"> Register </div></Link>
+                                            </div>
+
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+                            <div className="cartIcon" onClick={() => setOpen(!open)}>
+                                <ShoppingCartOutlinedIcon />
+                                <span>{products.length}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {open && <Cart />}
+
+            {open && <Cart setOpen={setOpen} open={open} totalPrice={totalPrice} setModalIsOpen={setModalIsOpen} />}
+            {modalIsOpen && <ModalInFunctionalComponent modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen}
+                price={totalPrice()} />}
         </div>
     )
 }

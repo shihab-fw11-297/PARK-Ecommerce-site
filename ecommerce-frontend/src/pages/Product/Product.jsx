@@ -8,6 +8,8 @@ import BalanceIcon from "@mui/icons-material/Balance";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../redux/cartReducer";
 
 const Product = () => {
     const [selectedImg, setSelectedImg] = useState(0);
@@ -17,7 +19,8 @@ const Product = () => {
     const { data, loading } = useFetch(`http://localhost:5000/api/products/find/${id}`);
     const [size, setSize] = useState("");
     let discount = (data.oldPrice - data.price) / data.oldPrice * 100;
-    // console.log("discount",discount)
+    const dispatch = useDispatch();
+
 
     return (
         <>
@@ -64,7 +67,21 @@ const Product = () => {
                         </div>
                     </div>
 
-                    <button className="add">
+                    <button
+                        className="add"
+                        onClick={() =>
+                            dispatch(
+                                addToCart({
+                                    id: data._id,
+                                    title: data.title,
+                                    desc: data.description,
+                                    price: data.price,
+                                    img: data.image[0],
+                                    quantity,
+                                })
+                            )
+                        }
+                    >
                         <AddShoppingCartIcon /> ADD TO CART
                     </button>
 
@@ -84,16 +101,16 @@ const Product = () => {
                     {/* <hr /> */}
                     <div className="otherInfo">
                         <div className="delivery">
-                            <p style={{fontWeight:"500"}}>DELIVERY OPTIONS</p>
+                            <p style={{ fontWeight: "500" }}>DELIVERY OPTIONS</p>
                             <p>Usually Ships in 3-4 Days</p>
                             <p>100% Originals</p>
                             <p>Free shipping on order above Rs. 600</p>
                             <p>Non Returnable</p>
                         </div>
                         {/* <hr /> */}
-                        <p style={{fontWeight:"500"}}>ADDITIONAL INFORMATION</p>
+                        <p style={{ fontWeight: "500" }}>ADDITIONAL INFORMATION</p>
                         {/* <hr /> */}
-                        <p style={{fontWeight:"500"}}>FAQ</p>
+                        <p style={{ fontWeight: "500" }}>FAQ</p>
                     </div>
                 </div>
             </div>
