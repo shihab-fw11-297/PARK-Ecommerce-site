@@ -17,6 +17,12 @@ const Products = () => {
     let [items, setItems] = useState([]);
     const [sort, setSort] = useState("newest");
     const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
+    const [showMobSortMenu, setShowMobSortMenu] = useState(false);
+    const [showFilterMenu, setShowFilterMenu] = useState(false);
+    const [showProductCategories, setShowProductCategories] = useState(true);
+    const [showProductPriceWise, setShowProductPriceWise] = useState(false);
+    const [showProductColorWise, setShowProductColorWise] = useState(false);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -29,7 +35,7 @@ const Products = () => {
             }
         };
         fetchData();
-        
+
     }, [cats])
 
     useEffect(() => {
@@ -37,7 +43,7 @@ const Products = () => {
             // setLoading(true);
             try {
                 const res = await axios.get(cats ? `http://localhost:5000/api/products?category=${cats}` :
-                `http://localhost:5000/api/products`
+                    `http://localhost:5000/api/products`
                 );
                 setItems(res.data);
             } catch (err) {
@@ -45,13 +51,13 @@ const Products = () => {
             }
         };
         fetchData();
-        
+
     }, [])
 
     useEffect(() => {
-    setSelectedCheckboxes([])
-    setSelectCats("")
-    },[location.pathname.split("/")[2]]);
+        setSelectedCheckboxes([])
+        setSelectCats("")
+    }, [location.pathname.split("/")[2]]);
 
     const handleChange = async (e) => {
         // cat = e.target.value;
@@ -68,6 +74,8 @@ const Products = () => {
         } else {
             setItems(data.data)
         }
+        setShowFilterMenu(false)
+        setShowMobSortMenu(false)
     }
 
     const getData = async () => {
@@ -78,6 +86,26 @@ const Products = () => {
 
         data = data.data.filter((item) => item.price <= maxPrice);
         setItems(data);
+        // setTimeout(() => {
+        setShowFilterMenu(false)
+        setShowMobSortMenu(false)
+        // }, 800)
+    }
+
+    const getDatas = async (maxP) => {
+
+        let data = await axios.get(selectCats
+            ? `http://localhost:5000/api/products?category=${selectCats}` :
+            cats
+                ? `http://localhost:5000/api/products?category=${cats}` :
+                `http://localhost:5000/api/products`);
+
+        data = data.data.filter((item) => item.price <= maxP);
+        setItems(data);
+        // setTimeout(() => {
+        setShowFilterMenu(false)
+        setShowMobSortMenu(false)
+        // }, 800)
     }
 
     useEffect(() => {
@@ -114,22 +142,27 @@ const Products = () => {
             let data = await axios.get(selectCats
                 ? `http://localhost:5000/api/products?category=${selectCats}` :
                 cats
-                ? `http://localhost:5000/api/products?category=${cats}` :
-                `http://localhost:5000/api/products`);
+                    ? `http://localhost:5000/api/products?category=${cats}` :
+                    `http://localhost:5000/api/products`);
             const res = data.data.filter(x => selectedCheckboxe.some(y => y === x.color[0]));
             setItems(res)
         } else {
             let data = await axios.get(selectCats
                 ? `http://localhost:5000/api/products?category=${selectCats}` :
                 cats
-                ? `http://localhost:5000/api/products?category=${cats}` :
-                `http://localhost:5000/api/products`);
+                    ? `http://localhost:5000/api/products?category=${cats}` :
+                    `http://localhost:5000/api/products`);
             setItems(data.data)
         }
         // console.log("unique", res);
+        setShowFilterMenu(false)
+        setShowMobSortMenu(false)
     }
 
-
+    const handleMobPriceFilter = (price) => {
+        setMaxPrice(price);
+        getDatas(price);
+    }
 
     return (
         <>
@@ -138,6 +171,7 @@ const Products = () => {
                 <div className="left">
                     <div className="filterItem">
                         <h2>Product Categories</h2>
+                        
                         <div className="cats">
                             <input type="radio" id="1" value={cats} name="cats" defaultChecked onChange={(e) => handleChange(e)} />
                             <label htmlFor="1">All</label>
@@ -216,7 +250,7 @@ const Products = () => {
                                 onChange={(e) => filterByColor("black")}
                                 selected={selectedCheckboxes.includes("black")}
                             />
-                            <div className="filterColor" style={{width:'20px', height:'20px',borderRadius:'50%',backgroundColor:'black',margin:'0px 5px 0px 1rem'}}></div>
+                            <div className="filterColor" style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: 'black', margin: '0px 5px 0px 1rem' }}></div>
                             <label htmlFor="Black">Black</label>
                         </div>
 
@@ -229,7 +263,7 @@ const Products = () => {
                                 onChange={(e) => filterByColor("blue")}
                                 selected={selectedCheckboxes.includes("blue")}
                             />
-                            <div className="filterColor" style={{width:'20px', height:'20px',borderRadius:'50%',backgroundColor:'blue',margin:'0px 5px 0px 1rem'}}></div>
+                            <div className="filterColor" style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: 'blue', margin: '0px 5px 0px 1rem' }}></div>
                             <label htmlFor="blue">Blue</label>
                         </div>
 
@@ -242,7 +276,7 @@ const Products = () => {
                                 onChange={(e) => filterByColor("white")}
                                 selected={selectedCheckboxes.includes("white")}
                             />
-                            <div className="filterColor" style={{width:'20px', height:'20px',borderRadius:'50%',backgroundColor:'white',margin:'0px 5px 0px 1rem'}}></div>
+                            <div className="filterColor" style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: 'white', margin: '0px 5px 0px 1rem' }}></div>
                             <label htmlFor="white">White</label>
                         </div>
 
@@ -255,7 +289,7 @@ const Products = () => {
                                 onChange={(e) => filterByColor("Red")}
                                 selected={selectedCheckboxes.includes("Red")}
                             />
-                            <div className="filterColor" style={{width:'20px', height:'20px',borderRadius:'50%',backgroundColor:'red',margin:'0px 5px 0px 1rem'}}></div>
+                            <div className="filterColor" style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: 'red', margin: '0px 5px 0px 1rem' }}></div>
                             <label htmlFor="Red">Red</label>
                         </div>
 
@@ -268,12 +302,13 @@ const Products = () => {
                                 onChange={(e) => filterByColor("Multi-Colour")}
                                 selected={selectedCheckboxes.includes("Multi-Colour")}
                             />
-                            <div className="filterColor" style={{width:'20px', height:'20px',borderRadius:'50%',backgroundColor:'#ff00e1',margin:'0px 5px 0px 1rem'}}></div>
+                            <div className="filterColor" style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: '#ff00e1', margin: '0px 5px 0px 1rem' }}></div>
                             <label htmlFor="Multi-color">Multi-color</label>
                         </div>
                     </div>
 
                 </div>
+
 
                 <div className="right">
                     <img
@@ -284,6 +319,151 @@ const Products = () => {
                     <List data={items} selectedCheckboxes={selectedCheckboxes} />
                 </div>
             </div>
+            {showMobSortMenu && (
+                <div className="sorItem">
+                    <h2>SORT BY</h2>
+                    <div className="menus">
+                        <p className="menu" onClick={(e) => { setSort("New"); setShowMobSortMenu(!showMobSortMenu) }} >Newest</p>
+                        <p className="menu" onClick={(e) => { setSort("asc"); setShowMobSortMenu(!showMobSortMenu) }}>Price (Lowest first)</p>
+                        <p className="menu" onClick={(e) => { setSort("desc"); setShowMobSortMenu(!showMobSortMenu) }}>Price (Highest first)</p>
+                    </div>
+                </div>
+            )}
+
+            {showFilterMenu && (
+                <div className="mobfilterItem">
+                    <h2>FILTERS</h2>
+                    <div className="filterContainer">
+                        <div className="mobleftMenu">
+                            <p className="menu" style={showProductCategories ?{fontWeight:700}:{fontWeight:400}} onClick={(e) => { setShowProductCategories(true); setShowProductPriceWise(false); setShowProductColorWise(false) }}>Product Categories</p>
+                            <p className="menu" style={showProductPriceWise ?{fontWeight:700}:{fontWeight:400}} onClick={(e) => { setShowProductPriceWise(true); setShowProductCategories(false); setShowProductColorWise(false) }}>Filter by price</p>
+                            <p className="menu" style={showProductColorWise ?{fontWeight:700}:{fontWeight:400}} onClick={(e) => { setShowProductColorWise(true); setShowProductPriceWise(false); setShowProductCategories(false) }}>Filter by Color</p>
+                        </div>
+                        <div className="mobrightMenu">
+                            {
+                                showProductCategories && (
+                                    <>
+                                        <div className="cats">
+                                            <input type="radio" id="1" value={cats} name="cats" defaultChecked onChange={(e) => handleChange(e)} />
+                                            <label htmlFor="1">All</label>
+                                        </div>
+
+                                        <div className="cats">
+                                            <input type="radio" id="1" value="shoes" name="cats" onChange={(e) => handleChange(e)} />
+                                            <label htmlFor="1">Shoes</label>
+                                        </div>
+                                        <div className="cats">
+                                            <input type="radio" id="3" value="sandle" name="cats" onChange={(e) => handleChange(e)} />
+                                            <label htmlFor="3">sandle</label>
+                                        </div>
+                                        <div className="cats">
+                                            <input type="radio" id="2" value="slides" name="cats" onChange={(e) => handleChange(e)} />
+                                            <label htmlFor="2">Slides</label>
+                                        </div>
+                                    </>
+                                )
+                            }
+
+                            {
+                                showProductPriceWise && (
+                                    <>
+                                        <p onClick={(e) => { handleMobPriceFilter(2500) }}>Rs. 0 To Rs.2500</p>
+                                        <p onClick={(e) => { handleMobPriceFilter(5000) }}>Rs. 0 To Rs.5000</p>
+                                        <p onClick={(e) => { handleMobPriceFilter(10000) }}>Rs. 0 To Rs.10000</p>
+                                        <p onClick={(e) => { handleMobPriceFilter(15000) }}>Rs. 0 To Rs.15000</p>
+                                        <p onClick={(e) => { handleMobPriceFilter(20000) }}>Rs. 0 To Rs.20000</p>
+                                        <p onClick={(e) => { handleMobPriceFilter(25000) }}>Rs. 0 To Rs.25000</p>
+                                        <p onClick={(e) => { handleMobPriceFilter(30000) }}>Rs. 0 To Rs.30000</p>
+                                    </>
+                                )
+                            }
+
+                            {
+                                showProductColorWise && (
+                                    <>
+                                        <div className="inputItem">
+                                            <input
+                                                type="checkbox"
+                                                id="black"
+                                                value="black"
+                                                name="black"
+                                                onChange={(e) => filterByColor("black")}
+                                                selected={selectedCheckboxes.includes("black")}
+                                            />
+                                            <div className="filterColor" style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: 'black', margin: '0px 5px 0px 1rem' }}></div>
+                                            <label htmlFor="Black">Black</label>
+                                        </div>
+
+                                        <div className="inputItem">
+                                            <input
+                                                type="checkbox"
+                                                id="blue"
+                                                value="blue"
+                                                name="blue"
+                                                onChange={(e) => filterByColor("blue")}
+                                                selected={selectedCheckboxes.includes("blue")}
+                                            />
+                                            <div className="filterColor" style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: 'blue', margin: '0px 5px 0px 1rem' }}></div>
+                                            <label htmlFor="blue">Blue</label>
+                                        </div>
+
+                                        <div className="inputItem">
+                                            <input
+                                                type="checkbox"
+                                                id="white"
+                                                value="white"
+                                                name="white"
+                                                onChange={(e) => filterByColor("white")}
+                                                selected={selectedCheckboxes.includes("white")}
+                                            />
+                                            <div className="filterColor" style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: 'white', margin: '0px 5px 0px 1rem' }}></div>
+                                            <label htmlFor="white">White</label>
+                                        </div>
+
+                                        <div className="inputItem">
+                                            <input
+                                                type="checkbox"
+                                                id="Red"
+                                                value="Red"
+                                                name="Red "
+                                                onChange={(e) => filterByColor("Red")}
+                                                selected={selectedCheckboxes.includes("Red")}
+                                            />
+                                            <div className="filterColor" style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: 'red', margin: '0px 5px 0px 1rem' }}></div>
+                                            <label htmlFor="Red">Red</label>
+                                        </div>
+
+                                        <div className="inputItem">
+                                            <input
+                                                type="checkbox"
+                                                id="Multicolour"
+                                                value="Multi-Colour"
+                                                name="Multi-Colour"
+                                                onChange={(e) => filterByColor("Multi-Colour")}
+                                                selected={selectedCheckboxes.includes("Multi-Colour")}
+                                            />
+                                            <div className="filterColor" style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: '#ff00e1', margin: '0px 5px 0px 1rem' }}></div>
+                                            <label htmlFor="Multi-color">Multi-color</label>
+                                        </div>
+                                    </>
+                                )
+                            }
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <div className="mobleft">
+                <div className="sort" onClick={() => {setShowMobSortMenu(true);setShowFilterMenu(false)}}>
+                    SORT BY
+                </div>
+
+
+                <div className="filter" onClick={() => {setShowFilterMenu(true);setShowMobSortMenu(false)}}>
+                    FILTER
+                </div>
+            </div>
+
             <Footer />
         </>
     )

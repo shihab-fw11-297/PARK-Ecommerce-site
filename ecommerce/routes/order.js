@@ -18,7 +18,7 @@ router.post("/", async (req, res) => {
     }
   });
 
-  router.put("/cancel/:id",verifyToken, async (req, res) => {
+  router.put("/cancel/:id", async (req, res) => {
     try {
       const updatedOrder = await Order.findByIdAndUpdate(
         req.params.id,
@@ -50,7 +50,7 @@ router.put("/:id",verifyToken, async (req, res) => {
     }
   })
 
-  router.delete("/:id",verifyToken, async (req, res) => {
+  router.delete("/:id", async (req, res) => {
     try {
       await Order.findByIdAndDelete(req.params.id);
       res.status(200).json("Order has been Canceld by users...");

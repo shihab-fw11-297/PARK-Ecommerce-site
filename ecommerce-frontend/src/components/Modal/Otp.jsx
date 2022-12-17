@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 export const Otp = (price) => {
   const products = useSelector((state) => state.cart.products);
-  // const currentUser = useSelector((state) => state.user);
+  const currentUser = useSelector((state) => state.user.currentUser);
   // const history = useHistory();
   const dispatch = useDispatch();
   let navigate = useNavigate();
@@ -24,7 +24,7 @@ export const Otp = (price) => {
     const createOrder = async () => {
       try {
         await axios.post("http://localhost:5000/api/order", {
-          userId: '63949194f78806644ff1f542',
+          userId: currentUser._id,
           products: products.map((item) => ({
             productId: item.id,
             quantity: item.quantity,

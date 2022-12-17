@@ -5,9 +5,11 @@ import Footer from '../../components/Footer/Footer'
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const Success = () => {
     const [data, setData] = useState([])
+    const currentUser = useSelector((state) => state.user);
 
     function check(product) {
         let data = product.products.length;
@@ -15,13 +17,18 @@ const Success = () => {
     }
 
     const fetchPosts = async () => {
-        await axios.get(`http://localhost:5000/api/order/find/63949194f78806644ff1f542`).then((res) => {
+        await axios.get(`http://localhost:5000/api/order/find/${currentUser.currentUser._id}`).then((res) => {
           setData(res.data);
         })
     
       };
     
-    //   console.log("data",data)
+      const cancelOrder = async (e) => {
+        await axios.put(`http://localhost:5000/api/order/cancel/${e}`).then(() => {
+          alert("order has been successfully cancel");
+          fetchPosts();
+        })
+      }
     
       useEffect(() => {
         fetchPosts();
@@ -31,13 +38,13 @@ const Success = () => {
     return (
         <>
             <Navbar />
-            <div className="container">
+            <div className="successContainer">
                 <div className="success">
                     <h1 className="title">Thank you for New Order</h1>
                     <h4 className="secondtitle">Click Perticular Order and Check Order Full Details</h4>
                 </div>
 
-                <div className="wrapper">
+                <div className="sucessWrapper">
                     <div className="infos">
                         <div className="product">
                             <div className="productDetails">
@@ -46,15 +53,15 @@ const Success = () => {
                                         Account
                                     </div>
                                     <span className="productId">
-                                        <b>Name :  Shihab Shaikh</b>
+                                        <b>Name :  {currentUser.currentUser.fname}{currentUser.currentUser.lname}</b>
                                     </span>
 
                                     <span className="productId">
-                                        <b>User email : shihab@gmail.com</b>
+                                        <b>User email : {currentUser.currentUser.email}</b>
                                     </span>
 
                                     <span className="productId">
-                                        <b>Shipping Address : vapi</b>
+                                        <b>Shipping Address : {currentUser.currentUser.address}</b>
                                     </span>
                                 </div>
                             </div>
@@ -124,7 +131,7 @@ const Success = () => {
                                         {
                                             product.status === 'pending' ?
                                                 <div className="productPrices">
-                                                    <button className="cancelOrder">cancel Order</button>
+                                                    <button className="cancelOrder" onClick={() => cancelOrder(product._id)}>cancel Order</button>
                                                 </div>
                                                 : product.status === 'fullfield' ?
                                                     <div className="productPrice">

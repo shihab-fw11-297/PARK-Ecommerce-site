@@ -14,11 +14,10 @@ import { ModalInFunctionalComponent } from "../../components/Modal/Modal";
 const Navbar = () => {
     let showMenu = false;
     const [open, setOpen] = useState(false)
-    const [openPayment, setOpenPayment] = useState(false)
     const products = useSelector((state) => state.cart.products);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [dropdownState, setDropdownState] = useState(false);
-    let user = true;
+    let user = useSelector((state) => state.user.currentUser);
 
 
     const handleDropdownClick = () => {
@@ -38,51 +37,51 @@ const Navbar = () => {
     };
 
 
-    // const toggleMenu = () =>{
-    //     // console.log("---", navItems && navItems)
-    //     if(!showMenu) {
-    //         const hamburger = document.querySelector('.menu-btn__burger');
-    //         hamburger.classList.add('open');
-    //         const nav = document.querySelector('.navbar');
-    //         nav.classList.add('open');
-    //         const wrapper = document.querySelector('.wrapper');
-    //         wrapper.classList.add('open');
-    //         const menuNav = document.querySelector('.left');
-    //         menuNav.classList.add('open');
-    //         const menuNavs = document.querySelector('.right');
-    //         menuNavs.classList.add('open');
-    //         const navItems = document.querySelectorAll('.item');
-    //         navItems && navItems.forEach(item => item.classList.add('open'));
-    //         const disable = document.querySelectorAll('.items');
-    //         disable && disable.forEach(item => item.classList.add('open'));
+    const toggleMenu = () =>{
+        // console.log("---", navItems && navItems)
+        if(!showMenu) {
+            const hamburger = document.querySelector('.menu-btn__burger');
+            hamburger.classList.add('open');
+            const nav = document.querySelector('.navbar');
+            nav.classList.add('open');
+            const wrapper = document.querySelector('.navbarWrapper');
+            wrapper.classList.add('open');
+            const menuNav = document.querySelector('.left');
+            menuNav.classList.add('open');
+            const menuNavs = document.querySelector('.right');
+            menuNavs.classList.add('open');
+            const navItems = document.querySelectorAll('.item');
+            navItems && navItems.forEach(item => item.classList.add('open'));
+            const disable = document.querySelectorAll('.items');
+            disable && disable.forEach(item => item.classList.add('open'));
 
-    //         showMenu = true;
-    //       } else {
-    //         const hamburger = document.querySelector('.menu-btn__burger');
-    //         hamburger.classList.remove('open');
-    //         const nav = document.querySelector('.navbar');
-    //         nav.classList.remove('open');
-    //         const wrapper = document.querySelector('.wrapper');
-    //         wrapper.classList.remove('open');
-    //         const menuNav = document.querySelector('.left');
-    //         menuNav.classList.remove('open');
-    //         const menuNavs = document.querySelector('.right');
-    //         menuNavs.classList.add('open');
-    //         const navItems = document.querySelectorAll('.item');
-    //         navItems && navItems.forEach(item => item.classList.remove('open'));
-    //         const disable = document.querySelectorAll('.items');
-    //         disable && disable.forEach(item => item.classList.remove('open'));
-    //         showMenu = false;
-    //       }
-    // }
+            showMenu = true;
+          } else {
+            const hamburger = document.querySelector('.menu-btn__burger');
+            hamburger.classList.remove('open');
+            const nav = document.querySelector('.navbar');
+            nav.classList.remove('open');
+            const wrapper = document.querySelector('.navbarWrapper');
+            wrapper.classList.remove('open');
+            const menuNav = document.querySelector('.left');
+            menuNav.classList.remove('open');
+            const menuNavs = document.querySelector('.right');
+            menuNavs.classList.add('open');
+            const navItems = document.querySelectorAll('.item');
+            navItems && navItems.forEach(item => item.classList.remove('open'));
+            const disable = document.querySelectorAll('.items');
+            disable && disable.forEach(item => item.classList.remove('open'));
+            showMenu = false;
+          }
+    }
     return (
         <div className='navbar'>
-            {/* 
+         
             <div className="menu-btn" onClick={toggleMenu}>
                 <span className="menu-btn__burger"></span>
-            </div> */}
+            </div> 
 
-            <div className='wrapper'>
+            <div className='navbarWrapper'>
                 <div className='left'>
                     <div className="item items" >
                         <img src="/img/en.png" alt="" />
@@ -129,7 +128,6 @@ const Navbar = () => {
                             <PersonOutlineOutlinedIcon onClick={handleDropdownClick} />
                             <FavoriteBorderOutlinedIcon />
 
-                            <div className={`dropdown`}>
                                 <div className={`dropdown-items ${dropdownState ? "isVisible" : "isHidden"}`}>
                                     {user ? (
                                         <>
@@ -158,7 +156,8 @@ const Navbar = () => {
                                         </>
                                     )}
                                 </div>
-                            </div>
+                 
+
                             <div className="cartIcon" onClick={() => setOpen(!open)}>
                                 <ShoppingCartOutlinedIcon />
                                 <span>{products.length}</span>

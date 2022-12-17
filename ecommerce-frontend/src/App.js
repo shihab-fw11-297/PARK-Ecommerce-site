@@ -8,6 +8,9 @@ import Home from './pages/Home/Home';
 import Product from './pages/Product/Product';
 import Products from './pages/Products/Products';
 import Success from './pages/Success/Success';
+import Singleorder  from './pages/singleOrder/Singleorder.jsx';
+import Register from './pages/Authentication/Register'
+import Login from './pages/Authentication/Login'
 
 import './app.scss'
 
@@ -29,13 +32,21 @@ const router = createBrowserRouter([
     element:<Product />
   },
   {
-    path:"/order",
-    element:<span>order</span>
-  },
-  {
     path:"/success",
     element:<Success />
+  },
+  {
+    path:"/Singleorder/:id",
+    element:<Singleorder/>
+  },{
+    path:"/register",
+    element:<Register/>
+  },
+  {
+    path:"/login",
+    element:<Login/>
   }
+  
 ])
 const App = () => {
   return (
