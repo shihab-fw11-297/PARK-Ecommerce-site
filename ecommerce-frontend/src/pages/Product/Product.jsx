@@ -10,13 +10,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartReducer";
+import Carousel from "react-elastic-carousel";
 
 const Product = () => {
     const [selectedImg, setSelectedImg] = useState(0);
     const [quantity, setQuantity] = useState(1);
     const location = useLocation();
     const id = location.pathname.split("/")[2];
-    const { data, loading } = useFetch(`http://localhost:5000/api/products/find/${id}`);
+    const { data, loading } = useFetch(`https://ecommerce-service.onrender.com/api/products/find/${id}`);
     const [size, setSize] = useState("");
     let discount = (data.oldPrice - data.price) / data.oldPrice * 100;
     const dispatch = useDispatch();
@@ -38,12 +39,22 @@ const Product = () => {
                     </div>
                 </div>
 
+                <div className="mobLeftSlider">
+                    <Carousel>
+                    <img src={data.image && data.image[0]} alt="" />
+                        <img src={data.image && data.image[1]} alt=""  />
+                        <img src={data.image && data.image[2]} alt=""  />
+                    </Carousel>
+                </div>
+
                 <div className="right">
                     <h1>{data.title}</h1>
                     <div className="priceDetail">
-                        <div className="pricedata">
-                            <span className='price'>Rs. {data.price}</span>
-                            <span className='oldPrice'>Rs. {data.oldPrice}</span>
+                        <div className="flex">
+                            <div className="pricedata">
+                                <span className='price'>Rs.{data.price}</span>
+                                <span className='oldPrice'>Rs.{data.oldPrice}</span>
+                            </div>
                             <span className="discount">({Math.ceil(discount)}% OFF)</span>
                         </div>
                         <span className="taxes">(Inclusive of all taxes)</span>

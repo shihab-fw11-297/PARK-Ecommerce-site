@@ -23,7 +23,7 @@ export const Otp = (price) => {
 
     const createOrder = async () => {
       try {
-        await axios.post("http://localhost:5000/api/order", {
+        await axios.post("https://ecommerce-service.onrender.com/api/order", {
           userId: currentUser._id,
           products: products.map((item) => ({
             productId: item.id,

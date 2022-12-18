@@ -18,8 +18,8 @@ const Card = ({ item }) => {
                 <div className="detail">
                 <h2>{item.title}</h2>
                 <div className="prices">
-                    <h3 className="oldPrice">${item.oldPrice}</h3>
-                    <h3 className="itemPrice">${item.price}</h3>
+                    <h3 className="oldPrice">₹{item.oldPrice}</h3>
+                    <h3 className="itemPrice">₹{item.price}</h3>
                 </div>
                 </div>
             </div>

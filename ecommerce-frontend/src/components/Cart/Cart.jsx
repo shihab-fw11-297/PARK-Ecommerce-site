@@ -28,7 +28,7 @@ const Cart = ({setOpen,open,totalPrice,setModalIsOpen}) => {
                         <h1>{item.title}</h1>
                         <p>{item.desc?.substring(0, 50)}</p>
                         <div className="price">
-                            {item.quantity} x ${item.price}
+                            {item.quantity} x ₹{item.price}
                         </div>
                     </div>
                     <DeleteOutlinedIcon className="delete"
@@ -39,7 +39,7 @@ const Cart = ({setOpen,open,totalPrice,setModalIsOpen}) => {
 
             <div className="total">
                 <span>SUBTOTAL</span>
-                <span>${totalPrice()}</span>
+                <span>₹{totalPrice()}</span>
             </div>
             {/* onClick={() => setOpen(!open) */}
             <button  onClick={() => setModalIsOpenToTrue()} >PROCEED TO PAY</button>

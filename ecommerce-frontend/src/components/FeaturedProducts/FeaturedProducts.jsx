@@ -5,7 +5,7 @@ import Carousel from "react-elastic-carousel";
 import useFetch from "../../hooks/useFetch";
 
 const FeaturedProducts = ({ type }) => {
-    const { data, loading } = useFetch("http://localhost:5000/api/products");
+    const { data, loading } = useFetch("https://ecommerce-service.onrender.com/api/products");
     // console.log("receive data", data)
 
     const breakPoints = [

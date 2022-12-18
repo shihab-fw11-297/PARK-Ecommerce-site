@@ -29,6 +29,10 @@
         object-fit: cover;
       }
     }
+
+    @media screen and (max-width: 480px) {
+      display: none;
+    }
   }
 
   .right {
@@ -37,33 +41,60 @@
     flex-direction: column;
     gap: 30px;
 
+    h1 {
+      @media screen and (max-width: 480px) {
+        font-size: 23px;
+      }
+    }
+
     .priceDetail {
       display: flex;
       flex-direction: column;
 
-      .pricedata {
+      .flex {
         display: flex;
+        flex-direction: row;
         gap: 1.5rem;
-        
-        .price {
-          font-size: 30px;
-          color: #2879fe;
-          font-weight: 500;
+
+        .pricedata {
+          display: flex;
+          gap: 0.5rem;
+
+          .price {
+            font-size: 30px;
+            color: #2879fe;
+            font-weight: 500;
+
+            @media screen and (max-width: 480px) {
+              font-size: 20px;
+            }
+
+          }
+
+          .oldPrice {
+            font-size: 21px;
+            color: #c5c5c5;
+            font-weight: 500;
+            text-decoration: line-through;
+            margin-top: 7px;
+
+            @media screen and (max-width: 480px) {
+              font-size: 18px;
+              margin-top: 2px;
+            }
+          }
         }
 
-        .oldPrice{
-          font-size: 22px;
-          color: #c5c5c5;
-          font-weight: 500;
-          text-decoration:line-through;
-          margin-top: 7px;
-        }
-
-        .discount{
-          font-size: 22px;
+        .discount {
+          font-size: 21px;
           color: #444;
           font-weight: 500;
-          margin-top: 7px;
+          margin-top: 5px;
+
+          @media screen and (max-width: 480px) {
+            font-size: 18px;
+            margin-top: 2px;
+          }
         }
       }
     }
@@ -115,7 +146,7 @@
     }
 
     .add {
-      width: 250px;
+      width: 15rem;
       padding: 10px;
       background-color: #2879fe;
       color: white;
@@ -126,6 +157,13 @@
       cursor: pointer;
       border: none;
       font-weight: 500;
+
+      @media screen and (max-width: 480px) {
+        width: 10rem;
+        padding: 6px;
+        margin-top: 5%;
+        margin-bottom: 5%;
+      }
     }
 
     .links {
@@ -154,7 +192,8 @@
         border: 1px solid rgb(238, 237, 237);
       }
     }
-    .otherInfo{
+
+    .otherInfo {
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -167,5 +206,32 @@
       border: 1px solid rgb(238, 237, 237);
     }
 
+    @media screen and (max-width: 480px) {
+      gap: 2px;
+    }
+  }
+
+  .mobLeftSlider {
+    display: none;
+
+    .rec-arrow {
+      display: none;
+    }
+
+    img {
+      width: 100%;
+      object-fit: cover;
+    }
+
+    @media screen and (max-width: 480px) {
+      display: block;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 30px;
+    gap: 31px;
   }
 }

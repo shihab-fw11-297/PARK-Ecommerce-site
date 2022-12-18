@@ -28,7 +28,7 @@ const Products = () => {
         const fetchData = async () => {
             // setLoading(true);
             try {
-                const res = await axios.get(`http://localhost:5000/api/products?category=${cats}`);
+                const res = await axios.get(`https://ecommerce-service.onrender.com/api/products?category=${cats}`);
                 setItems(res.data);
             } catch (err) {
                 console.log(err);
@@ -42,8 +42,8 @@ const Products = () => {
         const fetchData = async () => {
             // setLoading(true);
             try {
-                const res = await axios.get(cats ? `http://localhost:5000/api/products?category=${cats}` :
-                    `http://localhost:5000/api/products`
+                const res = await axios.get(cats ? `https://ecommerce-service.onrender.com/api/products?category=${cats}` :
+                    `https://ecommerce-service.onrender.com/api/products`
                 );
                 setItems(res.data);
             } catch (err) {
@@ -62,8 +62,8 @@ const Products = () => {
     const handleChange = async (e) => {
         // cat = e.target.value;
         let data = await axios.get(e.target.value
-            ? `http://localhost:5000/api/products?category=${e.target.value}` :
-            `http://localhost:5000/api/products`);
+            ? `https://ecommerce-service.onrender.com/api/products?category=${e.target.value}` :
+            `https://ecommerce-service.onrender.com/api/products`);
 
         // console.log("data",e.target.value)
         setSelectCats(e.target.value);
@@ -81,8 +81,8 @@ const Products = () => {
     const getData = async () => {
 
         let data = await axios.get(selectCats
-            ? `http://localhost:5000/api/products?category=${selectCats}` :
-            `http://localhost:5000/api/products`);
+            ? `https://ecommerce-service.onrender.com/api/products?category=${selectCats}` :
+            `https://ecommerce-service.onrender.com/api/products`);
 
         data = data.data.filter((item) => item.price <= maxPrice);
         setItems(data);
@@ -95,10 +95,10 @@ const Products = () => {
     const getDatas = async (maxP) => {
 
         let data = await axios.get(selectCats
-            ? `http://localhost:5000/api/products?category=${selectCats}` :
+            ? `https://ecommerce-service.onrender.com/api/products?category=${selectCats}` :
             cats
-                ? `http://localhost:5000/api/products?category=${cats}` :
-                `http://localhost:5000/api/products`);
+                ? `https://ecommerce-service.onrender.com/api/products?category=${cats}` :
+                `https://ecommerce-service.onrender.com/api/products`);
 
         data = data.data.filter((item) => item.price <= maxP);
         setItems(data);
@@ -140,18 +140,18 @@ const Products = () => {
         // console.log("unique", selectedCheckboxe);
         if (selectedCheckboxe.length !== 0) {
             let data = await axios.get(selectCats
-                ? `http://localhost:5000/api/products?category=${selectCats}` :
+                ? `https://ecommerce-service.onrender.com/api/products?category=${selectCats}` :
                 cats
-                    ? `http://localhost:5000/api/products?category=${cats}` :
-                    `http://localhost:5000/api/products`);
+                    ? `https://ecommerce-service.onrender.com/api/products?category=${cats}` :
+                    `https://ecommerce-service.onrender.com/api/products`);
             const res = data.data.filter(x => selectedCheckboxe.some(y => y === x.color[0]));
             setItems(res)
         } else {
             let data = await axios.get(selectCats
-                ? `http://localhost:5000/api/products?category=${selectCats}` :
+                ? `https://ecommerce-service.onrender.com/api/products?category=${selectCats}` :
                 cats
-                    ? `http://localhost:5000/api/products?category=${cats}` :
-                    `http://localhost:5000/api/products`);
+                    ? `https://ecommerce-service.onrender.com/api/products?category=${cats}` :
+                    `https://ecommerce-service.onrender.com/api/products`);
             setItems(data.data)
         }
         // console.log("unique", res);

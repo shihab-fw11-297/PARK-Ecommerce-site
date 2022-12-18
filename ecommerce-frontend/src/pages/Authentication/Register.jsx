@@ -34,7 +34,7 @@ const Register = () => {
             setEmptyFieldError(true)
             // emptyData()
         } else {
-            axios.post(`http://localhost:5000/api/auth/register`, userData).then(res => {
+            axios.post(`https://ecommerce-service.onrender.com/api/auth/register`, userData).then(res => {
                 setSignUpError(false)
                 emptyData()
                 navigate("/login");

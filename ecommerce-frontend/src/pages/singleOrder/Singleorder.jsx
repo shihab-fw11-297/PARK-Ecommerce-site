@@ -14,7 +14,7 @@ const Singleorder = () => {
 
     useEffect(() => {
         const fetchPosts = async () => {
-            await axios.get(`http://localhost:5000/api/order/singleOrders/${para.id}`).then((res) => {
+            await axios.get(`https://ecommerce-service.onrender.com/api/order/singleOrders/${para.id}`).then((res) => {
                 setData(res.data[0].products);
             })
         };
@@ -104,7 +104,7 @@ const Singleorder = () => {
                                             </div>
 
                                             <div className="ProductName">
-                                                <b>Product Price :  {product.price}</b>
+                                                <b>Product Price :  ₹{product.price}</b>
                                             </div>
 
                                             <div className="ProductName">

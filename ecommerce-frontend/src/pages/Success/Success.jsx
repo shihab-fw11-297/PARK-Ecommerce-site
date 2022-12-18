@@ -17,14 +17,14 @@ const Success = () => {
     }
 
     const fetchPosts = async () => {
-        await axios.get(`http://localhost:5000/api/order/find/${currentUser.currentUser._id}`).then((res) => {
+        await axios.get(`https://ecommerce-service.onrender.com/api/order/find/${currentUser.currentUser._id}`).then((res) => {
           setData(res.data);
         })
     
       };
     
       const cancelOrder = async (e) => {
-        await axios.put(`http://localhost:5000/api/order/cancel/${e}`).then(() => {
+        await axios.put(`https://ecommerce-service.onrender.com/api/order/cancel/${e}`).then(() => {
           alert("order has been successfully cancel");
           fetchPosts();
         })
@@ -40,6 +40,7 @@ const Success = () => {
             <Navbar />
             <div className="successContainer">
                 <div className="success">
+                    
                     <h1 className="title">Thank you for New Order</h1>
                     <h4 className="secondtitle">Click Perticular Order and Check Order Full Details</h4>
                 </div>
@@ -53,7 +54,7 @@ const Success = () => {
                                         Account
                                     </div>
                                     <span className="productId">
-                                        <b>Name :  {currentUser.currentUser.fname}{currentUser.currentUser.lname}</b>
+                                        <b>Name :  {currentUser.currentUser.fname} {currentUser.currentUser.lname}</b>
                                     </span>
 
                                     <span className="productId">
