@@ -21,7 +21,7 @@ Ecommerce Website clone Where user can buy Men, Women and Children casual appare
 
 1. React.js
 2. Redux
-3. Styled components
+3. SCSS
 4. MongoDB
 5. Express.js
 6. NodeJs
